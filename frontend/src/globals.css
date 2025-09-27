@@ -10,7 +10,7 @@
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96%;
     --secondary-foreground: 222.2 84% 4.9%;
@@ -22,7 +22,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
   }
 
@@ -33,8 +33,8 @@
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 84% 4.9%;
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217.2 32.6% 17.5%;
@@ -45,7 +45,7 @@
     --destructive-foreground: 210 40% 98%;
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --ring: 224.3 76.3% 94.1%;
   }
 }
 
@@ -55,70 +55,5 @@
   }
   body {
     @apply bg-background text-foreground;
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-  background-color: #e2e8f0;
-  padding: 2px 4px;
-  border-radius: 4px;
-}
-
-.App {
-  text-align: center;
-  min-height: 100vh;
-}
-
-.App-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  color: white;
-  margin-bottom: 40px;
-}
-
-.App-header h1 {
-  margin: 0 0 16px 0;
-  font-size: 2.5rem;
-}
-
-.coming-soon {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.api-status {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  margin: 20px 0;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: left;
-}
-
-.api-status h3 {
-  color: #059669;
-  margin-top: 0;
-}
-
-.api-status ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.api-status li {
-  padding: 8px 0;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.api-status li:last-child {
-  border-bottom: none;
 }
