@@ -13,7 +13,7 @@ export const handleValidationErrors = (
   
   if (!errors.isEmpty()) {
     const errorMessages = errors.array().map(error => 
-      `${error.param}: ${error.msg}`
+      `${error.type === 'field' ? error.path : 'field'}: ${error.msg}`
     ).join(', ');
     
     const response: ApiResponse = {
@@ -251,9 +251,9 @@ export const validate = (validations: ValidationChain[]) => {
     if (!errors.isEmpty()) {
       const errorMessages = errors.array().map(error => {
         return {
-          field: error.param,
+          field: error.type === 'field' ? error.path : 'field',
           message: error.msg,
-          value: error.value
+          value: error.type === 'field' ? error.value : 'unknown'
         };
       });
       
