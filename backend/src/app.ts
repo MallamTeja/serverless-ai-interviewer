@@ -3,8 +3,8 @@ import path from 'path';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { Request, Response, NextError } from 'express';
-import router from './routes/index';
+import { Request, Response, NextFunction } from 'express';
+import interviewRouter from './routes/interview';
 
 const app = express();
 
@@ -36,11 +36,20 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // API routes
-app.use('/api', router);
+app.use('/api/interview', interviewRouter);
 
 // Serve frontend static files
 const frontendPath = path.join(__dirname, '../../frontend/dist');
-app.use(express.static(frontendPath));
+const fs = require('fs');
+
+// Only serve static files if frontend build exists
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
+  console.log(`📁 Serving frontend from: ${frontendPath}`);
+} else {
+  console.log(`⚠️  Frontend build not found at: ${frontendPath}`);
+  console.log(`📝 Run 'npm run build' in frontend directory to build the frontend`);
+}
 
 // Health check endpoint
 app.get('/health', (req: Request, res: Response) => {
@@ -52,21 +61,20 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // Handle client-side routing - serve index.html for all non-API routes
-app.get('*', (req: Request, res: Response) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
-
-// 404 handler for API routes
-app.use('/api/*', (req: Request, res: Response) => {
-  res.status(404).json({
-    success: false,
-    message: 'API endpoint not found',
-    error: {
-      code: 'NOT_FOUND',
-      path: req.originalUrl,
-      method: req.method,
-    },
-  });
+app.get(/^(?!\/api).*/, (req: Request, res: Response) => {
+  const indexPath = path.join(frontendPath, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({
+      success: false,
+      message: 'Frontend not built yet',
+      error: {
+        code: 'FRONTEND_NOT_BUILT',
+        suggestion: 'Run "npm run build" in the frontend directory to build the React app',
+      },
+    });
+  }
 });
 
 // Global error handler
@@ -76,7 +84,7 @@ interface AppError extends Error {
   isOperational?: boolean;
 }
 
-app.use((err: AppError, req: Request, res: Response, next: NextError) => {
+app.use((err: AppError, req: Request, res: Response, next: NextFunction) => {
   // Default error values
   let statusCode = err.statusCode || 500;
   let status = err.status || 'error';

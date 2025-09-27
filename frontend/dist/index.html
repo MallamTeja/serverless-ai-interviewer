@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="AI Interview Assistant - Streamline your interview process with AI-powered tools" />
+    <title>AI Interview Assistant</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-color: #f8fafc;
+        min-height: 100vh;
+      }
+
+      .container {
+        text-align: center;
+        min-height: 100vh;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 20px;
+        color: white;
+        margin-bottom: 40px;
+      }
+
+      .header h1 {
+        margin: 0 0 16px 0;
+        font-size: 2.5rem;
+      }
+
+      .content {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .api-status {
+        background: white;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+
+      .api-status h3 {
+        color: #059669;
+        margin-top: 0;
+        font-size: 1.5rem;
+      }
+
+      .api-status ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .api-status li {
+        padding: 12px 0;
+        border-bottom: 1px solid #e5e7eb;
+        font-family: monospace;
+        background: #f8fafc;
+        margin: 8px 0;
+        padding: 12px;
+        border-radius: 4px;
+      }
+
+      .api-status li:last-child {
+        border-bottom: none;
+      }
+
+      .test-section {
+        background: white;
+        border-radius: 8px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: left;
+      }
+
+      .test-button {
+        background: #667eea;
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 8px 8px 8px 0;
+      }
+
+      .test-button:hover {
+        background: #5a67d8;
+      }
+
+      .result {
+        background: #f7fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 16px;
+        margin: 16px 0;
+        font-family: monospace;
+        white-space: pre-wrap;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .status-indicator {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+
+      .status-online {
+        background-color: #10b981;
+      }
+
+      .status-offline {
+        background-color: #ef4444;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1>🤖 AI Interview Assistant</h1>
+        <p>Backend API is now active and ready for frontend integration!</p>
+      </header>
+      
+      <main class="content">
+        <div class="api-status">
+          <h3><span class="status-indicator status-online"></span>API Status: Online</h3>
+          <p>Backend server is running successfully on <strong>port 5000</strong></p>
+          <ul>
+            <li><strong>Health Check:</strong> GET /health</li>
+            <li><strong>Interview Questions:</strong> GET /api/interview/questions</li>
+            <li><strong>Submit Interview:</strong> POST /api/interview/submit</li>
+          </ul>
+        </div>
+
+        <div class="test-section">
+          <h3>🧪 Test API Endpoints</h3>
+          <p>Click the buttons below to test the API endpoints directly from the browser:</p>
+          
+          <button class="test-button" onclick="testHealth()">Test Health Check</button>
+          <button class="test-button" onclick="testQuestions()">Test Get Questions</button>
+          <button class="test-button" onclick="testSubmit()">Test Submit Interview</button>
+          
+          <div id="result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="api-status">
+          <h3>🚀 Next Steps</h3>
+          <p>Your backend is fully functional! Here's what you can do next:</p>
+          <ul>
+            <li><strong>Build React Frontend:</strong> Run npm install && npm run build in /frontend</li>
+            <li><strong>Connect Redux Store:</strong> The interview slice is ready for integration</li>
+            <li><strong>Develop Components:</strong> Start building interview UI components</li>
+            <li><strong>Test API Integration:</strong> Use the working endpoints above</li>
+          </ul>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      async function makeRequest(url, options = {}) {
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+        resultDiv.textContent = 'Loading...';
+        
+        try {
+          const response = await fetch(url, options);
+          const data = await response.json();
+          resultDiv.textContent = JSON.stringify(data, null, 2);
+        } catch (error) {
+          resultDiv.textContent = 'Error: ' + error.message;
+        }
+      }
+
+      function testHealth() {
+        makeRequest('/health');
+      }
+
+      function testQuestions() {
+        makeRequest('/api/interview/questions');
+      }
+
+      function testSubmit() {
+        const sampleData = {
+          candidateId: 'demo-candidate-123',
+          sessionId: 'demo-session-456',
+          answers: [
+            {
+              questionId: 'q1',
+              answer: 'Synchronous programming executes code line by line, blocking until each operation completes. Asynchronous programming allows multiple operations to run concurrently without blocking.',
+              duration: 120
+            },
+            {
+              questionId: 'q2',
+              answer: 'I led a challenging project to migrate our legacy system to microservices. I coordinated with 5 team members, managed timeline constraints, and ensured smooth deployment.',
+              duration: 180
+            }
+          ]
+        };
+
+        makeRequest('/api/interview/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(sampleData)
+        });
+      }
+    </script>
+  </body>
+</html>
